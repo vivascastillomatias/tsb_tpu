@@ -1,4 +1,6 @@
-package estructuras;
+package entidades;
+
+import soporte.TSBHashtableDA;
 
 public class Region
 {

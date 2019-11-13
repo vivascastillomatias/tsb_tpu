@@ -1,32 +1,34 @@
 package controladores;
 
-import estructuras.Agrupacion;
-import estructuras.Region;
-import estructuras.TSBHashtableDA;
-import estructuras.Archivos;
+import entidades.Region;
+import soporte.LectorAgrupaciones;
+import soporte.LectorEscrutinio;
+import soporte.LectorRegiones;
+import soporte.TSBHashtableDA;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 public class Gestor {
+
     private TSBHashtableDA agrupaciones;
     private TSBHashtableDA regiones;
 
 
     public Collection<Region> obtenerAgrupaciones(String path){
-        Archivos filesUploader = new Archivos(path);
-        agrupaciones = filesUploader.cargaAgrupaciones();
+        LectorAgrupaciones lector = new LectorAgrupaciones(path);
+        agrupaciones = lector.cargaAgrupaciones();
         return (Collection<Region>) agrupaciones.values();
     }
 
     public Collection<Region> obtenerRegiones(String path){
-        Archivos filesUploader = new Archivos(path);
-        regiones = filesUploader.cargaRegiones();
+        LectorRegiones lector = new LectorRegiones(path);
+        regiones = lector.cargaRegiones();
         return (Collection<Region>) regiones.values();
     }
+
     public void contarVotos(String path){
-        Archivos filesUploader = new Archivos(path);
-        filesUploader.escrutinio(regiones, agrupaciones);
+        LectorEscrutinio lector = new LectorEscrutinio(path);
+        lector.contabilizarVotos(regiones, agrupaciones);
     }
     public TSBHashtableDA getAgrupaciones() {
         return agrupaciones;

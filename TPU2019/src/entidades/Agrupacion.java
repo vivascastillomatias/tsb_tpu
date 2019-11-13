@@ -1,4 +1,4 @@
-package estructuras;
+package entidades;
 
 public class Agrupacion {
     private String nombre, cod;
@@ -8,10 +8,16 @@ public class Agrupacion {
         this.cod = codigo;
         this.votos = 0;
     }
+
     public void sumarVotos(String votos){
-        Integer n = Integer.parseInt(votos);
-        if(n>0){
-            this.votos+=n;
+        try{
+            Integer n = Integer.parseInt(votos);
+            if(n > 0){
+                this.votos += n;
+            }
+        }
+        catch(NumberFormatException e){
+
         }
 
     }
@@ -26,10 +32,6 @@ public class Agrupacion {
 
     @Override
     public String toString() {
-        return "Agrupación{" +
-                "Nombre='" + nombre + '\'' +
-                ", Código='" + cod+ '\'' +
-                ", Votos=" + votos +
-                '}';
+        return "Codigo de agrupacion: " + this.cod + "Nombre: " + this.nombre;
     }
 }

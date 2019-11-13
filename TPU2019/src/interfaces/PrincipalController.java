@@ -1,8 +1,8 @@
 package interfaces;
 
 import controladores.Gestor;
-import estructuras.Agrupacion;
-import estructuras.Region;
+import entidades.Agrupacion;
+import entidades.Region;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -10,20 +10,22 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
-import controladores.Gestor;
+
 import javax.swing.*;
 import java.io.File;
 import java.util.Collection;
 import java.util.Iterator;
 
 public class PrincipalController {
-    public TextField txtPostulaciones;
-    public TextField txtRegiones;
-    public TextField txtConteos;
-    public Button totales;
+    public TextField txtRutaPostulaciones;
+    public TextField txtRutaRegiones;
+    public TextField txtRutaConteos;
+
+    public Button contabilizarTotales;
     public ComboBox cmbDistrito;
     public ComboBox cmbSeccion;
     public ComboBox cmbCircuito;
+
     @FXML
     private TableView tabla;
 
@@ -31,12 +33,12 @@ public class PrincipalController {
 
 
     @FXML
-    public void btnCargarRegionesClick(ActionEvent actionEvent){ cargarArchivo(txtRegiones);
+    public void btnCargarRegionesClick(ActionEvent actionEvent){ cargarArchivo(txtRutaRegiones);
     }
     @FXML
-    public void btnCargarPostulacionesClick(ActionEvent actionEvent){ cargarArchivo(txtPostulaciones); }
+    public void btnCargarPostulacionesClick(ActionEvent actionEvent){ cargarArchivo(txtRutaPostulaciones); }
     @FXML
-    public void btnCargarConteosClick(ActionEvent actionEvent){ cargarArchivo(txtConteos); }
+    public void btnCargarConteosClick(ActionEvent actionEvent){ cargarArchivo(txtRutaConteos); }
     @FXML
     private void cargarArchivo(TextField txtRuta){
         FileChooser fc = new FileChooser();
@@ -49,17 +51,20 @@ public class PrincipalController {
 
     @FXML
     private void btnImportarDatosClick(ActionEvent actionEvent) {
-        if (txtRegiones.getText().isEmpty() || txtPostulaciones.getText().isEmpty() || txtConteos.getText() == "") {
-            JOptionPane.showMessageDialog(null, "Por favor ingrese todos los archivos.");
+        if (txtRutaRegiones.getText().isEmpty() || txtRutaPostulaciones.getText().isEmpty() || txtRutaConteos.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor seleccione la ruta de todos los archivos.");
         } else {
             cmbDistrito.setDisable(false);
             cmbSeccion.setDisable(false);
             cmbCircuito.setDisable(false);
-            totales.setDisable(false);
+
+            contabilizarTotales.setDisable(false);
+
             controlador = new Gestor();
-            controlador.obtenerRegiones(txtRegiones.getText());
-            controlador.obtenerAgrupaciones(txtPostulaciones.getText());
-            controlador.contarVotos(txtConteos.getText());
+            controlador.obtenerRegiones(txtRutaRegiones.getText());
+            controlador.obtenerAgrupaciones(txtRutaPostulaciones.getText());
+            controlador.contarVotos(txtRutaConteos.getText());
+
             cargarCombos(controlador.getRegiones().values());
             Collection agrup = controlador.getAgrupaciones().values();
             this.cargarTabla(agrup);
